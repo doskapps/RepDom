@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="row_spacing">8dp</dimen>
+    <dimen name="row_padding">8dp</dimen>
+    <dimen name="img_scale">28dp</dimen>
+
+</resources>

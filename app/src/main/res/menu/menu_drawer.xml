@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/drawer_recent"
+            android:checked="true"
+            android:icon="@drawable/ic_drawer_recent"
+            android:title="@string/drawer_recent" />
+
+        <item
+            android:id="@+id/drawer_favorite"
+            android:icon="@drawable/ic_drawer_favorite"
+            android:title="@string/drawer_favorite" />
+
+        <item
+            android:id="@+id/drawer_locale"
+            android:icon="@drawable/ic_drawer_country"
+            android:title="@string/drawer_locale" />
+
+    </group>
+
+    <item android:title="@string/drawer_other">
+
+        <menu>
+
+            <group android:checkableBehavior="single">
+
+                <item
+                    android:id="@+id/drawer_rate"
+                    android:icon="@drawable/ic_drawer_rate"
+                    android:title="@string/drawer_rate" />
+
+                <item
+                    android:id="@+id/drawer_more"
+                    android:icon="@drawable/ic_drawer_more"
+                    android:title="@string/drawer_more" />
+
+                <item
+                    android:id="@+id/drawer_about"
+                    android:icon="@drawable/ic_drawer_about"
+                    android:title="@string/drawer_about" />
+
+            </group>
+
+        </menu>
+
+    </item>
+
+</menu>

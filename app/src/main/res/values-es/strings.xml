@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Your application name-->
+    <string name="app_name">Inter Radio</string>
+
+    <!--Your main menu tab name-->
+    <string name="tab_recent">Recientes</string>
+    <string name="tab_category">Región/Ciudad</string>
+
+    <!--AdMob-->
+    <string name="admob_app_id"></string>
+    <string name="admob_banner_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="admob_interstitial_unit_id">ca-app-pub-3940256099942544/1033173712</string>
+
+    <!--navigation drawer menu name-->
+    <string name="drawer_recent">Home</string>
+    <string name="drawer_favorite">Favoritos</string>
+    <string name="drawer_locale">País</string>
+    <string name="drawer_other">Otros</string>
+    <string name="drawer_rate">Rate</string>
+    <string name="drawer_more">More</string>
+    <string name="drawer_about">Acerca de</string>
+
+    <!--exit dialog-->
+    <string name="message">Realmente deceas salir?</string>
+    <string name="quit">Salir</string>
+    <string name="minimize">Minimizar</string>
+    <string name="cancel">Cancelar</string>
+
+    <!--seleccion de pais dialog-->
+    <string name="select_country_title">Selecciona un país</string>
+    <string name="select_country_ok">Aceptar</string>
+    <string name="select_country_cancel">Cancelar</string>
+    <string name="select_country_success">Ahora estas en %1$s ;)</string>
+
+    <!--app about information-->
+    <string name="sub_about_app_copyright">&#169; 2019 DosK-Apps Developer</string>
+    <string name="about_app_version">Build Version</string>
+    <string name="sub_about_app_version">Version 1.1.0</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="title_contact_us">Contact Us</string>
+    <string name="title_google_play">Google Play</string>
+    <string name="website">Website</string>
+    <string name="website_url">https://www.doskapps.com</string>
+    <string name="facebook">Facebook</string>
+    <string name="facebook_url">https://www.facebook.com/</string>
+    <string name="twitter">Twitter</string>
+    <string name="twitter_url">https://twitter.com/</string>
+    <string name="instagram">Instagram</string>
+    <string name="instagram_url">https://www.instagram.com/</string>
+    <string name="email">Email</string>
+    <string name="email_address">doskapps@gmail.com</string>
+    <string name="rate">Rate Us</string>
+    <string name="more">More Apps</string>
+    <string name="play_more_apps">https://play.google.com/store/apps/developer?id=doskapps</string>
+    <string name="privacy_policy_url">https://doskapps.com</string>
+
+    <!--network & error message-->
+    <string name="failed_title_text">Whoops!</string>
+    <string name="failed_text">No internet connections found. Check your connection or try again!</string>
+    <string name="failed_recent">Todavia no hay recientes</string>
+    <string name="no_internet_text">No Internet Connection!</string>
+    <string name="no_category_found">No category found!!</string>
+    <string name="no_post_found">if you want to continue search, please try enter another keyword!</string>
+    <string name="msg_search_input">Please Insert Keyword</string>
+
+    <!--other string tag name-->
+    <string name="now_playing">Estas escuchando :</string>
+    <string name="share_content">I Would like to share this with you. Here You Can Download This Application from PlayStore </string>
+    <string name="search">Buscar&#8230;</string>
+    <string name="volume_off">Silenciar</string>
+    <string name="volume_max">Volumen máximo</string>
+    <string name="option_set_favorite">Add to Favorite</string>
+    <string name="option_unset_favorite">Remove From Favorite</string>
+    <string name="favorite_added">Added to Favorite</string>
+    <string name="favorite_removed">Removed from Favorite</string>
+    <string name="no_favorite_found">What is your favorite&#8230; ?</string>
+    <string name="option_set_share">Share to Friends</string>
+    <string name="radio_connection">Connecting to </string>
+    <string name="internet_disabled">Internet Connection is Disabled</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="station">Station (s)</string>
+
+</resources>

@@ -1,0 +1,41 @@
+{
+  "project_info": {
+    "project_number": "779666426502",
+    "firebase_url": "https://inter-radio-55332.firebaseio.com",
+    "project_id": "inter-radio-55332",
+    "storage_bucket": "inter-radio-55332.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:779666426502:android:c904bdc284b53f9b",
+        "android_client_info": {
+          "package_name": "com.doskapps.interradio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "779666426502-62jt899uoo4q06cami4o17b1cdnhr3eq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYg9AKHciLg6Y-u39IXzgv-uYm3xd84aY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "779666426502-62jt899uoo4q06cami4o17b1cdnhr3eq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-7602201078320441~4056840219"
+    }
+  ],
+  "configuration_version": "1"
+}
