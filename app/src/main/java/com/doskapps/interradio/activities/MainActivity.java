@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         pais = tm.getNetworkCountryIso().toUpperCase();
 
         if (pais == null || pais.trim().length() == 0) {
-            // Se obtiene el pais
+            // Se obtiene el pais de la configuracion regional del dispositivo
             pais = getCurrentLocale(this).getCountry().toUpperCase();
         }
 
@@ -175,9 +175,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Constant.PAIS = lPais.get(0).getNombre();
 
             AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-            alertDialog.setTitle("Alert");
-            alertDialog.setMessage("Deseas seguir escuchando radios de " + lPais.get(0).getNombre());
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok",
+            alertDialog.setTitle(R.string.alert_country_title);
+            alertDialog.setMessage(String.format(getString(R.string.alert_country_message), lPais.get(0).getNombre()));
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.alert_country_ok),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             Constant.LOCALE = lPais.get(0).getLocale();
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             dialog.dismiss();
                         }
                     });
-            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No, deseo escuchar mi país",
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.alert_country_cancel),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             Constant.LOCALE = pais;

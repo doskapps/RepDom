@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -94,6 +95,19 @@ public class SearchableListDialog extends DialogFragment implements
         alertDialog.setTitle(strTitle);
 
         final AlertDialog dialog = alertDialog.create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener(){
+
+            @Override
+            public void onShow(DialogInterface _dialog) {
+
+                Button negative = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                negative.setFocusable(true);
+                negative.setFocusableInTouchMode(true);
+                negative.requestFocus();
+            }
+        });
+
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams
                 .SOFT_INPUT_STATE_HIDDEN);
         return dialog;
@@ -134,7 +148,7 @@ public class SearchableListDialog extends DialogFragment implements
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context
                 .SEARCH_SERVICE);
 
-        _searchView = (SearchView) rootView.findViewById(R.id.search);
+        _searchView = rootView.findViewById(R.id.search);
         _searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName
                 ()));
         _searchView.setIconifiedByDefault(false);
@@ -146,7 +160,7 @@ public class SearchableListDialog extends DialogFragment implements
         mgr.hideSoftInputFromWindow(_searchView.getWindowToken(), 0);
 
         List items = (List) getArguments().getSerializable(ITEMS);
-        _listViewItems = (ListView) rootView.findViewById(R.id.listItems);
+        _listViewItems = rootView.findViewById(R.id.listItems);
 
         //create the adapter by passing your ArrayList data
         listAdapter = new IgnoreAccentsArrayAdapter(getActivity(), android.R.layout.simple_list_item_1,items);        //attach the adapter to the list

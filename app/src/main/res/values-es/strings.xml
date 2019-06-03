@@ -34,6 +34,12 @@
     <string name="select_country_cancel">Cancelar</string>
     <string name="select_country_success">Ahora estas en %1$s ;)</string>
 
+    <!--alerta de pais actual dialog-->
+    <string name="alert_country_title">Pst!</string>
+    <string name="alert_country_ok">Si</string>
+    <string name="alert_country_cancel">No, deseo escuchar mi país</string>
+    <string name="alert_country_message">¿Deseas seguir escuchando radios de %1$s ?</string>
+
     <!--app about information-->
     <string name="sub_about_app_copyright">&#169; 2019 DosK-Apps Developer</string>
     <string name="about_app_version">Build Version</string>
@@ -71,10 +77,10 @@
     <string name="search">Buscar&#8230;</string>
     <string name="volume_off">Silenciar</string>
     <string name="volume_max">Volumen máximo</string>
-    <string name="option_set_favorite">Add to Favorite</string>
-    <string name="option_unset_favorite">Remove From Favorite</string>
-    <string name="favorite_added">Added to Favorite</string>
-    <string name="favorite_removed">Removed from Favorite</string>
+    <string name="option_set_favorite">Agregar a Favoritos</string>
+    <string name="option_unset_favorite">Quitar de Favoritos</string>
+    <string name="favorite_added">Agregado a Favoritos</string>
+    <string name="favorite_removed">Eliminado de Favoritos</string>
     <string name="no_favorite_found">What is your favorite&#8230; ?</string>
     <string name="option_set_share">Share to Friends</string>
     <string name="radio_connection">Connecting to </string>

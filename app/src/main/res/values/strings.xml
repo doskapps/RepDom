@@ -34,6 +34,12 @@
     <string name="select_country_cancel">Cancel</string>
     <string name="select_country_success">Country %1$s selected ;)</string>
 
+    <!--alerta de pais actual dialog-->
+    <string name="alert_country_title">Pst!</string>
+    <string name="alert_country_ok">Yes</string>
+    <string name="alert_country_cancel">No, I want to listen to my country</string>
+    <string name="alert_country_message">Do you want to continue listening to radios from %1$s ?</string>
+
     <!--app about information-->
     <string name="sub_about_app_copyright">&#169; 2018 DosK-Apps Developer</string>
     <string name="about_app_version">Build Version</string>
