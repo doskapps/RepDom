@@ -67,7 +67,7 @@ public class ActivityCategoryDetails extends AppCompatActivity implements View.O
     View view;
     TextView txt_radio_name;
     ImageView img_logo;
-    ImageButton btn_pause, btn_play;
+    ImageButton btn_pause, btn_play, btn_close;
     LinearLayout relativeLayout;
     private DatabaseHandler databaseHandler;
     private CharSequence charSequence = null;
@@ -90,6 +90,7 @@ public class ActivityCategoryDetails extends AppCompatActivity implements View.O
 
         btn_pause = findViewById(R.id.main_pause);
         btn_play = findViewById(R.id.main_play);
+        btn_close = findViewById(R.id.mainClose);
         relativeLayout = findViewById(R.id.main_bar);
 
         category = (Category) getIntent().getSerializableExtra(EXTRA_OBJC);
@@ -386,6 +387,7 @@ public class ActivityCategoryDetails extends AppCompatActivity implements View.O
         txt_radio_name = findViewById(R.id.main_bar_station);
         btn_pause.setOnClickListener(this);
         btn_play.setOnClickListener(this);
+        btn_close.setOnClickListener(this);
 
         Picasso
                 .with(this)
@@ -413,6 +415,11 @@ public class ActivityCategoryDetails extends AppCompatActivity implements View.O
                 RadioPlayerService.instance(ActivityCategoryDetails.this, 2);
                 btn_pause.setVisibility(View.VISIBLE);
                 btn_play.setVisibility(View.GONE);
+                break;
+
+            case R.id.mainClose:
+                play(false);
+                relativeLayout.setVisibility(View.GONE);
                 break;
 
             default:

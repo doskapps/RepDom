@@ -65,7 +65,7 @@ public class ActivitySearch extends AppCompatActivity implements View.OnClickLis
     private Call<CallbackRadio> callbackCall = null;
     TextView txt_radio_name;
     ImageView img_logo;
-    ImageButton btn_pause, btn_play;
+    ImageButton btn_pause, btn_play, btn_close;
     LinearLayout relativeLayout;
     private DatabaseHandler databaseHandler;
     private CharSequence charSequence = null;
@@ -84,6 +84,7 @@ public class ActivitySearch extends AppCompatActivity implements View.OnClickLis
 
         btn_pause = findViewById(R.id.main_pause);
         btn_play = findViewById(R.id.main_play);
+        btn_close = findViewById(R.id.mainClose);
         relativeLayout = findViewById(R.id.main_bar);
 
         et_search = findViewById(R.id.et_search);
@@ -362,6 +363,7 @@ public class ActivitySearch extends AppCompatActivity implements View.OnClickLis
         txt_radio_name = findViewById(R.id.main_bar_station);
         btn_pause.setOnClickListener(this);
         btn_play.setOnClickListener(this);
+        btn_close.setOnClickListener(this);
 
         Picasso
                 .with(this)
@@ -389,6 +391,12 @@ public class ActivitySearch extends AppCompatActivity implements View.OnClickLis
                 btn_pause.setVisibility(View.VISIBLE);
                 btn_play.setVisibility(View.GONE);
                 break;
+
+            case R.id.mainClose:
+                play(false);
+                relativeLayout.setVisibility(View.GONE);
+                break;
+
 
             default:
                 break;

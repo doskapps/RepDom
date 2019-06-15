@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     TextView txt_radio_name;
     ImageView img_logo;
-    ImageButton btn_pause, btn_play;
+    ImageButton btn_pause, btn_play, btn_close;
     LinearLayout relativeLayout;
     private AdView adView;
     private InterstitialAd interstitialAd;
@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         btn_pause = findViewById(R.id.main_pause);
         btn_play = findViewById(R.id.main_play);
+        btn_close = findViewById(R.id.mainClose);
         relativeLayout = findViewById(R.id.main_bar);
 
         if (savedInstanceState != null) {
@@ -453,6 +454,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         txt_radio_name = findViewById(R.id.main_bar_station);
         btn_pause.setOnClickListener(this);
         btn_play.setOnClickListener(this);
+        btn_close.setOnClickListener(this);
 
         Picasso
                 .with(this)
@@ -479,6 +481,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 RadioPlayerService.instance(MainActivity.this, 0);
                 btn_pause.setVisibility(View.VISIBLE);
                 btn_play.setVisibility(View.GONE);
+                break;
+
+            case R.id.mainClose:
+                play(false);
+                relativeLayout.setVisibility(View.GONE);
                 break;
 
             default:

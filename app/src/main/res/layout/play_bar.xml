@@ -31,15 +31,17 @@
             android:src="@mipmap/ic_launcher" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="275dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/main_bar_logo"
-            android:layout_toLeftOf="@+id/main_pause"
-            android:layout_toRightOf="@+id/main_bar_logo"
+            android:layout_marginLeft="5dp"
+            android:layout_marginEnd="39dp"
+            android:layout_marginRight="39dp"
             android:layout_toStartOf="@+id/main_pause"
+            android:layout_toLeftOf="@+id/main_pause"
+            android:layout_toEndOf="@+id/main_bar_logo"
+            android:layout_toRightOf="@+id/main_bar_logo"
             android:orientation="vertical">
 
             <TextView
@@ -67,8 +69,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/app_name"
             android:tint="@color/textColorBlack"
@@ -81,13 +82,24 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/app_name"
             android:tint="@color/textColorBlack"
             android:visibility="gone"
             app:srcCompat="@drawable/ic_play" />
+
+        <ImageButton
+            android:id="@+id/mainClose"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/app_name"
+            app:srcCompat="@drawable/ic_close" />
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
