@@ -1,5 +1,6 @@
 package com.doskapps.interradio.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -28,21 +30,23 @@ import com.doskapps.interradio.utilities.DatabaseHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentFavorite extends Fragment {
+public class FragmentFavorite extends Fragment implements View.OnClickListener {
 
     private List<Radio> data = new ArrayList<Radio>();
-    View root_view, parent_view;
+    View root_view, parent_view, play_bar;
     AdapterFavorite mAdapterFavorite;
     DatabaseHandler databaseHandler;
     RecyclerView recyclerView;
     LinearLayout linearLayout;
     private CharSequence charSequence = null;
+    private ImageButton btn_favorite, btn_no_favorite;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root_view = inflater.inflate(R.layout.fragment_favorite, null);
         parent_view = getActivity().findViewById(R.id.main_content);
+        play_bar = getActivity().findViewById(R.id.main_bar);
 
         linearLayout = root_view.findViewById(R.id.lyt_no_favorite);
         recyclerView = root_view.findViewById(R.id.recyclerView);
@@ -55,6 +59,9 @@ public class FragmentFavorite extends Fragment {
         data = databaseHandler.getAllData();
         mAdapterFavorite = new AdapterFavorite(getActivity(), recyclerView, data);
         recyclerView.setAdapter(mAdapterFavorite);
+
+        btn_favorite = play_bar.findViewById(R.id.main_favorite);
+        btn_no_favorite = play_bar.findViewById(R.id.main_no_favorite);
 
         if (data.size() == 0) {
             linearLayout.setVisibility(View.VISIBLE);
@@ -76,6 +83,9 @@ public class FragmentFavorite extends Fragment {
         data = databaseHandler.getAllData();
         mAdapterFavorite = new AdapterFavorite(getActivity(), recyclerView, data);
         recyclerView.setAdapter(mAdapterFavorite);
+
+        btn_favorite.setOnClickListener(this);
+        btn_no_favorite.setOnClickListener(this);
 
         mAdapterFavorite.setOnItemClickListener(new AdapterFavorite.OnItemClickListener() {
             @Override
@@ -123,13 +133,28 @@ public class FragmentFavorite extends Fragment {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.menu_context_favorite:
+                                boolean mostrarCambio = false;
+
+                                Radio play = RadioPlayerService.getInstance().getPlayingRadioStation();
+                                mostrarCambio = (play != null && (play.radio_id.compareTo(obj.radio_id)) == 0);
+
                                 if (charSequence.equals(getString(R.string.option_set_favorite))) {
                                     databaseHandler.AddtoFavorite(new Radio(obj.radio_id, obj.radio_name, obj.genere_name, obj.category_name, obj.radio_image, obj.radio_url));
                                     Toast.makeText(getActivity(), getString(R.string.favorite_added), Toast.LENGTH_SHORT).show();
 
+                                    if (mostrarCambio) {
+                                        btn_favorite.setVisibility(View.VISIBLE);
+                                        btn_no_favorite.setVisibility(View.GONE);
+                                    }
+
                                 } else if (charSequence.equals(getString(R.string.option_unset_favorite))) {
                                     databaseHandler.RemoveFav(new Radio(obj.radio_id));
                                     Toast.makeText(getActivity(), getString(R.string.favorite_removed), Toast.LENGTH_SHORT).show();
+
+                                    if (mostrarCambio) {
+                                        btn_favorite.setVisibility(View.GONE);
+                                        btn_no_favorite.setVisibility(View.VISIBLE);
+                                    }
                                     refreshFragment();
                                 }
                                 return true;
@@ -182,4 +207,37 @@ public class FragmentFavorite extends Fragment {
         fragmentTransaction.detach(this).attach(this).commit();
     }
 
+    @Override
+    public void onClick(View v) {
+        Radio obj = RadioPlayerService.getInstance().getPlayingRadioStation();
+
+        switch (v.getId()) {
+            case R.id.main_no_favorite:
+                databaseHandler.AddtoFavorite(new Radio(obj.radio_id, obj.radio_name, obj.genere_name, obj.category_name, obj.radio_image, obj.radio_url));
+                Context ctx = getActivity();
+                if (ctx != null) Toast.makeText(ctx, getString(R.string.favorite_added), Toast.LENGTH_SHORT).show();
+
+                btn_no_favorite.setVisibility(View.GONE);
+                btn_favorite.setVisibility(View.VISIBLE);
+
+                if (ctx != null) refreshFragment();
+
+                break;
+
+            case R.id.main_favorite:
+                databaseHandler.RemoveFav(new Radio(obj.radio_id));
+                Context ctx2 = getActivity();
+                if (ctx2 != null) Toast.makeText(ctx2, getString(R.string.favorite_removed), Toast.LENGTH_SHORT).show();
+
+                btn_favorite.setVisibility(View.GONE);
+                btn_no_favorite.setVisibility(View.VISIBLE);
+
+                if (ctx2 != null) refreshFragment();
+
+                break;
+
+            default:
+                break;
+        }
+    }
 }

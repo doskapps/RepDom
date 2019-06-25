@@ -27,6 +27,7 @@
     <string name="quit">Quit</string>
     <string name="minimize">Minimize</string>
     <string name="cancel">Cancel</string>
+    <string name="retry">Retry</string>
 
     <!--seleccion de pais dialog-->
     <string name="select_country_title">Select a country</string>
@@ -41,7 +42,7 @@
     <string name="alert_country_message">Do you want to continue listening to radios from %1$s ?</string>
 
     <!--app about information-->
-    <string name="sub_about_app_copyright">&#169; 2018 DosK-Apps Developer</string>
+    <string name="sub_about_app_copyright">&#169; 2019 Doskapps Developer</string>
     <string name="about_app_version">Build Version</string>
     <string name="sub_about_app_version">Version 1.1.0</string>
     <string name="privacy_policy">Privacy Policy</string>

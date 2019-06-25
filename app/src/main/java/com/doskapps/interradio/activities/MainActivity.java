@@ -4,7 +4,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.AudioManager;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +27,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
@@ -40,6 +45,7 @@ import com.doskapps.interradio.Config;
 import com.doskapps.interradio.R;
 import com.doskapps.interradio.adapters.AdapterPaises;
 import com.doskapps.interradio.fragments.FragmentAbout;
+import com.doskapps.interradio.fragments.FragmentFavorite;
 import com.doskapps.interradio.models.Pais;
 import com.doskapps.interradio.models.Radio;
 import com.doskapps.interradio.services.RadioPlayerService;
@@ -49,6 +55,7 @@ import com.doskapps.interradio.utilities.Constant;
 import com.doskapps.interradio.utilities.DatabaseHandler;
 import com.doskapps.interradio.utilities.GDPR;
 import com.doskapps.interradio.utilities.HttpTask;
+import com.doskapps.interradio.utilities.NetworkCheck;
 import com.google.ads.mediation.admob.AdMobAdapter;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -77,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     TextView txt_radio_name;
     ImageView img_logo;
-    ImageButton btn_pause, btn_play, btn_close;
+    ImageButton btn_pause, btn_play, btn_close, btn_favorite, btn_no_favorite;
     LinearLayout relativeLayout;
     private AdView adView;
     private InterstitialAd interstitialAd;
@@ -120,6 +127,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         btn_pause = findViewById(R.id.main_pause);
         btn_play = findViewById(R.id.main_play);
+        btn_favorite = findViewById(R.id.main_favorite);
+        btn_no_favorite = findViewById(R.id.main_no_favorite);
         btn_close = findViewById(R.id.mainClose);
         relativeLayout = findViewById(R.id.main_bar);
 
@@ -154,65 +163,96 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         GDPR.updateConsentStatus(this);
 
-        // Se obtienen los paises disponibles
-        adapterPaises = new AdapterPaises();
+        if (!NetworkCheck.isConnect(this)) {
+                //Create an alert dialog
+                AlertDialog.Builder Checkbuilder = new  AlertDialog.Builder(this);
+                Checkbuilder.setTitle(getString(R.string.failed_title_text));
+                Checkbuilder.setCancelable(false);
+                Checkbuilder.setMessage(getString(R.string.failed_text));
+                //Builder Retry Button
 
-        // Se obtiene le pais de la red. Puede no funcionar en dispositivos sin tarjeta SIM
-        TelephonyManager tm = (TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
-        pais = tm.getNetworkCountryIso().toUpperCase();
+                Checkbuilder.setPositiveButton(getString(R.string.retry), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        //Restart The Activity
+                        Intent intent = getIntent();
+                        finish();
+                        startActivity(intent);
 
-        if (pais == null || pais.trim().length() == 0) {
-            // Se obtiene el pais de la configuracion regional del dispositivo
-            pais = getCurrentLocale(this).getCountry().toUpperCase();
-        }
+                    }
+                });
 
-        // Verificar en tabla local de pais seleccionado si anteriormente se selecciono uno
-        // Si existe la tabla y el pais seleccionado es distinto al pais detectado, preguntar si se
-        // desea utlizar el pais que se selecciono
-        databaseHandler = new DatabaseHandler(this);
-        final List<Pais> lPais = databaseHandler.getCountry();
-        if (lPais.size() > 0 && (lPais.get(0).getLocale().compareToIgnoreCase(pais) != 0)) {
-            Constant.LOCALE = lPais.get(0).getLocale();
-            Constant.PAIS = lPais.get(0).getNombre();
+                Checkbuilder.setNegativeButton(getString(R.string.quit), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                }) ;
 
-            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-            alertDialog.setTitle(R.string.alert_country_title);
-            alertDialog.setMessage(String.format(getString(R.string.alert_country_message), lPais.get(0).getNombre()));
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.alert_country_ok),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Constant.LOCALE = lPais.get(0).getLocale();
-                            Constant.PAIS = lPais.get(0).getNombre();
+                AlertDialog alert=Checkbuilder.create();
+                alert.show();
 
-                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentTabHome(), COLLAPSING_TOOLBAR_FRAGMENT_TAG).commit();
-
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.alert_country_cancel),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Constant.LOCALE = pais;
-                            Constant.PAIS = getCountryName(pais);
-
-                            Pais p = new Pais();
-
-                            p.setNombre(Constant.PAIS);
-                            p.setLocale(Constant.LOCALE);
-
-                            databaseHandler.AddtoCountry(p);
-
-                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentTabHome(), COLLAPSING_TOOLBAR_FRAGMENT_TAG).commit();
-
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
         } else {
-            Constant.LOCALE = pais;
-            Constant.PAIS = getCountryName(pais);
-        }
 
+            // Se obtienen los paises disponibles
+            adapterPaises = new AdapterPaises();
+
+            // Se obtiene le pais de la red. Puede no funcionar en dispositivos sin tarjeta SIM
+            TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+            pais = tm.getNetworkCountryIso().toUpperCase();
+
+            if (pais == null || pais.trim().length() == 0) {
+                // Se obtiene el pais de la configuracion regional del dispositivo
+                pais = getCurrentLocale(this).getCountry().toUpperCase();
+            }
+
+            // Verificar en tabla local de pais seleccionado si anteriormente se selecciono uno
+            // Si existe la tabla y el pais seleccionado es distinto al pais detectado, preguntar si se
+            // desea utlizar el pais que se selecciono
+            databaseHandler = new DatabaseHandler(this);
+            final List<Pais> lPais = databaseHandler.getCountry();
+            if (lPais.size() > 0 && (lPais.get(0).getLocale().compareToIgnoreCase(pais) != 0)) {
+                Constant.LOCALE = lPais.get(0).getLocale();
+                Constant.PAIS = lPais.get(0).getNombre();
+
+                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                alertDialog.setTitle(R.string.alert_country_title);
+                alertDialog.setMessage(String.format(getString(R.string.alert_country_message), lPais.get(0).getNombre()));
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.alert_country_ok),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Constant.LOCALE = lPais.get(0).getLocale();
+                                Constant.PAIS = lPais.get(0).getNombre();
+
+                                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentTabHome(), COLLAPSING_TOOLBAR_FRAGMENT_TAG).commit();
+
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.alert_country_cancel),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Constant.LOCALE = pais;
+                                Constant.PAIS = getCountryName(pais);
+
+                                Pais p = new Pais();
+
+                                p.setNombre(Constant.PAIS);
+                                p.setLocale(Constant.LOCALE);
+
+                                databaseHandler.AddtoCountry(p);
+
+                                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentTabHome(), COLLAPSING_TOOLBAR_FRAGMENT_TAG).commit();
+
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+            } else {
+                Constant.LOCALE = pais;
+                Constant.PAIS = getCountryName(pais);
+            }
+        }
     }
 
     // Obtiene el pais de la Configuracion Regional
@@ -455,6 +495,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btn_pause.setOnClickListener(this);
         btn_play.setOnClickListener(this);
         btn_close.setOnClickListener(this);
+        btn_favorite.setOnClickListener(this);
+        btn_no_favorite.setOnClickListener(this);
 
         Picasso
                 .with(this)
@@ -465,10 +507,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         txt_radio_name.setText(station.radio_name);
         relativeLayout.setVisibility(View.VISIBLE);
 
+        // Vuelvo a actualizar el estado de los botones
+        btn_pause.setVisibility(View.VISIBLE);
+        btn_play.setVisibility(View.GONE);
+
+        if (databaseHandler == null) databaseHandler = new DatabaseHandler(getApplicationContext());
+
+        if (databaseHandler.getFavRow(station.radio_id) != null && databaseHandler.getFavRow(station.radio_id).size() != 0) {
+            btn_no_favorite.setVisibility(View.GONE);
+            btn_favorite.setVisibility(View.VISIBLE);
+        } else {
+            btn_favorite.setVisibility(View.GONE);
+            btn_no_favorite.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void onClick(View v) {
+        Radio obj = RadioPlayerService.getInstance().getPlayingRadioStation();
+
         switch (v.getId()) {
             case R.id.main_pause:
                 play(false);
@@ -481,11 +538,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 RadioPlayerService.instance(MainActivity.this, 0);
                 btn_pause.setVisibility(View.VISIBLE);
                 btn_play.setVisibility(View.GONE);
+
                 break;
 
             case R.id.mainClose:
                 play(false);
                 relativeLayout.setVisibility(View.GONE);
+                break;
+
+            case R.id.main_no_favorite:
+                databaseHandler.AddtoFavorite(new Radio(obj.radio_id, obj.radio_name, obj.genere_name, obj.category_name, obj.radio_image, obj.radio_url));
+                Toast.makeText(getApplicationContext(), getString(R.string.favorite_added), Toast.LENGTH_SHORT).show();
+
+                btn_no_favorite.setVisibility(View.GONE);
+                btn_favorite.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.main_favorite:
+                databaseHandler.RemoveFav(new Radio(obj.radio_id));
+                Toast.makeText(getApplicationContext(), getString(R.string.favorite_removed), Toast.LENGTH_SHORT).show();
+
+                btn_favorite.setVisibility(View.GONE);
+                btn_no_favorite.setVisibility(View.VISIBLE);
+
                 break;
 
             default:
@@ -494,7 +569,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void play(boolean toPlay) {
-
         if (!toPlay) {
             stopService(new Intent(MainActivity.this, RadioPlayerService.class));
             btn_pause.setVisibility(View.GONE);
@@ -504,8 +578,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startService(new Intent(MainActivity.this, RadioPlayerService.class));
             btn_pause.setVisibility(View.VISIBLE);
             btn_play.setVisibility(View.GONE);
-        }
 
+            // Verifico si la radio es favorita
+            Radio radio = RadioPlayerService.getInstance().getPlayingRadioStation();
+
+            if (databaseHandler.getFavRow(radio.radio_id) != null && databaseHandler.getFavRow(radio.radio_id).size() != 0) {
+                btn_no_favorite.setVisibility(View.GONE);
+                btn_favorite.setVisibility(View.VISIBLE);
+            } else {
+                btn_favorite.setVisibility(View.GONE);
+                btn_no_favorite.setVisibility(View.VISIBLE);
+            }
+
+        }
     }
 
     @Override
@@ -690,4 +775,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
 }

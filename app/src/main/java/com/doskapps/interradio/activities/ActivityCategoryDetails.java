@@ -67,7 +67,7 @@ public class ActivityCategoryDetails extends AppCompatActivity implements View.O
     View view;
     TextView txt_radio_name;
     ImageView img_logo;
-    ImageButton btn_pause, btn_play, btn_close;
+    ImageButton btn_pause, btn_play, btn_close, btn_favorite, btn_no_favorite;
     LinearLayout relativeLayout;
     private DatabaseHandler databaseHandler;
     private CharSequence charSequence = null;
@@ -91,6 +91,8 @@ public class ActivityCategoryDetails extends AppCompatActivity implements View.O
         btn_pause = findViewById(R.id.main_pause);
         btn_play = findViewById(R.id.main_play);
         btn_close = findViewById(R.id.mainClose);
+        btn_favorite = findViewById(R.id.main_favorite);
+        btn_no_favorite = findViewById(R.id.main_no_favorite);
         relativeLayout = findViewById(R.id.main_bar);
 
         category = (Category) getIntent().getSerializableExtra(EXTRA_OBJC);
@@ -151,14 +153,29 @@ public class ActivityCategoryDetails extends AppCompatActivity implements View.O
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.menu_context_favorite:
+                                boolean mostrarCambio = false;
+
+                                Radio play = RadioPlayerService.getInstance().getPlayingRadioStation();
+                                mostrarCambio = (play != null && (play.radio_id.compareTo(obj.radio_id) == 0));
 
                                 if (charSequence.equals(getString(R.string.option_set_favorite))) {
                                     databaseHandler.AddtoFavorite(new Radio(obj.radio_id, obj.radio_name, obj.genere_name,obj.category_name, obj.radio_image, obj.radio_url));
                                     Toast.makeText(getApplicationContext(), getString(R.string.favorite_added), Toast.LENGTH_SHORT).show();
 
+                                    if (mostrarCambio) {
+                                        btn_favorite.setVisibility(View.VISIBLE);
+                                        btn_no_favorite.setVisibility(View.GONE);
+                                    }
+
                                 } else if (charSequence.equals(getString(R.string.option_unset_favorite))) {
                                     databaseHandler.RemoveFav(new Radio(obj.radio_id));
                                     Toast.makeText(getApplicationContext(), getString(R.string.favorite_removed), Toast.LENGTH_SHORT).show();
+
+                                    if (mostrarCambio) {
+                                        btn_favorite.setVisibility(View.GONE);
+                                        btn_no_favorite.setVisibility(View.VISIBLE);
+                                    }
+
                                 }
                                 return true;
 
@@ -388,6 +405,8 @@ public class ActivityCategoryDetails extends AppCompatActivity implements View.O
         btn_pause.setOnClickListener(this);
         btn_play.setOnClickListener(this);
         btn_close.setOnClickListener(this);
+        btn_favorite.setOnClickListener(this);
+        btn_no_favorite.setOnClickListener(this);
 
         Picasso
                 .with(this)
@@ -398,10 +417,25 @@ public class ActivityCategoryDetails extends AppCompatActivity implements View.O
         txt_radio_name.setText(station.radio_name);
         relativeLayout.setVisibility(View.VISIBLE);
 
+        // Vuelvo a actualizar el estado de los botones
+        btn_pause.setVisibility(View.VISIBLE);
+        btn_play.setVisibility(View.GONE);
+
+        if (databaseHandler == null) databaseHandler = new DatabaseHandler(getApplicationContext());
+
+        if (databaseHandler.getFavRow(station.radio_id) != null && databaseHandler.getFavRow(station.radio_id).size() != 0) {
+            btn_no_favorite.setVisibility(View.GONE);
+            btn_favorite.setVisibility(View.VISIBLE);
+        } else {
+            btn_favorite.setVisibility(View.GONE);
+            btn_no_favorite.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void onClick(View v) {
+        Radio obj = RadioPlayerService.getInstance().getPlayingRadioStation();
+
         switch (v.getId()) {
             case R.id.main_pause:
                 play(false);
@@ -415,11 +449,28 @@ public class ActivityCategoryDetails extends AppCompatActivity implements View.O
                 RadioPlayerService.instance(ActivityCategoryDetails.this, 2);
                 btn_pause.setVisibility(View.VISIBLE);
                 btn_play.setVisibility(View.GONE);
+
                 break;
 
             case R.id.mainClose:
                 play(false);
                 relativeLayout.setVisibility(View.GONE);
+                break;
+
+            case R.id.main_no_favorite:
+                databaseHandler.AddtoFavorite(new Radio(obj.radio_id, obj.radio_name, obj.genere_name, obj.category_name, obj.radio_image, obj.radio_url));
+                Toast.makeText(getApplicationContext(), getString(R.string.favorite_added), Toast.LENGTH_SHORT).show();
+
+                btn_no_favorite.setVisibility(View.GONE);
+                btn_favorite.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.main_favorite:
+                databaseHandler.RemoveFav(new Radio(obj.radio_id));
+                Toast.makeText(getApplicationContext(), getString(R.string.favorite_removed), Toast.LENGTH_SHORT).show();
+
+                btn_favorite.setVisibility(View.GONE);
+                btn_no_favorite.setVisibility(View.VISIBLE);
                 break;
 
             default:
@@ -428,7 +479,7 @@ public class ActivityCategoryDetails extends AppCompatActivity implements View.O
     }
 
     public void play(boolean toPlay) {
-
+        Log.d("@@@@PLAY CATEGORYDETAIL", toPlay + "");
         if (!toPlay) {
             stopService(new Intent(ActivityCategoryDetails.this, RadioPlayerService.class));
             relativeLayout.setVisibility(View.VISIBLE);
@@ -439,6 +490,20 @@ public class ActivityCategoryDetails extends AppCompatActivity implements View.O
             startService(new Intent(ActivityCategoryDetails.this, RadioPlayerService.class));
             btn_pause.setVisibility(View.VISIBLE);
             btn_play.setVisibility(View.GONE);
+
+            // Verifico si la radio es favorita
+            Radio radio = RadioPlayerService.getInstance().getPlayingRadioStation();
+
+            // Guardar la radio en recientes
+            if (databaseHandler == null) databaseHandler = new DatabaseHandler(getApplicationContext());
+
+            if (databaseHandler.getFavRow(radio.radio_id) != null && databaseHandler.getFavRow(radio.radio_id).size() != 0) {
+                btn_no_favorite.setVisibility(View.GONE);
+                btn_favorite.setVisibility(View.VISIBLE);
+            } else {
+                btn_favorite.setVisibility(View.GONE);
+                btn_no_favorite.setVisibility(View.VISIBLE);
+            }
         }
 
     }

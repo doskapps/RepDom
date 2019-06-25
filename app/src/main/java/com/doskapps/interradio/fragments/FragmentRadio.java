@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,7 +43,7 @@ import retrofit2.Response;
 
 public class FragmentRadio extends Fragment {
 
-    View root_view, parent_view;
+    View root_view, parent_view, play_bar;
     private RecyclerView recyclerView;
     private AdapterRadio adapterRecent;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -51,12 +52,14 @@ public class FragmentRadio extends Fragment {
     private int failed_page = 0;
     private DatabaseHandler databaseHandler;
     private CharSequence charSequence = null;
+    private ImageButton btn_favorite, btn_no_favorite;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root_view = inflater.inflate(R.layout.fragment_radio, null);
         parent_view = getActivity().findViewById(R.id.main_content);
+        play_bar = getActivity().findViewById(R.id.main_bar);
 
         setHasOptionsMenu(true);
 
@@ -75,6 +78,9 @@ public class FragmentRadio extends Fragment {
         if (Config.ENABLE_RTL_MODE) {
             recyclerView.setRotationY(180);
         }
+
+        btn_favorite = play_bar.findViewById(R.id.main_favorite);
+        btn_no_favorite = play_bar.findViewById(R.id.main_no_favorite);
 
         // on item list clicked
         adapterRecent.setOnItemClickListener(new AdapterRadio.OnItemClickListener() {
@@ -113,13 +119,30 @@ public class FragmentRadio extends Fragment {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.menu_context_favorite:
+                                boolean mostrarCambio = false;
+
+                                Radio play = RadioPlayerService.getInstance().getPlayingRadioStation();
+                                mostrarCambio = (play != null && (play.radio_id.compareTo(obj.radio_id) == 0));
+                                Log.d("####### ", "OJO " + mostrarCambio);
+
                                 if (charSequence.equals(getString(R.string.option_set_favorite))) {
                                     databaseHandler.AddtoFavorite(new Radio(obj.radio_id, obj.radio_name, obj.genere_name, obj.category_name, obj.radio_image, obj.radio_url));
                                     Toast.makeText(getActivity(), getString(R.string.favorite_added), Toast.LENGTH_SHORT).show();
 
+                                    if (mostrarCambio) {
+                                        btn_favorite.setVisibility(View.VISIBLE);
+                                        btn_no_favorite.setVisibility(View.GONE);
+                                    }
+
                                 } else if (charSequence.equals(getString(R.string.option_unset_favorite))) {
                                     databaseHandler.RemoveFav(new Radio(obj.radio_id));
                                     Toast.makeText(getActivity(), getString(R.string.favorite_removed), Toast.LENGTH_SHORT).show();
+
+                                    if (mostrarCambio) {
+                                        btn_favorite.setVisibility(View.GONE);
+                                        btn_no_favorite.setVisibility(View.VISIBLE);
+                                    }
+
                                 }
                                 return true;
 
