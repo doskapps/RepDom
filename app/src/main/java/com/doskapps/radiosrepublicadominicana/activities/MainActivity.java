@@ -192,8 +192,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             adapterPaises = new AdapterPaises();
 
             // Se obtiene le pais de la red. Puede no funcionar en dispositivos sin tarjeta SIM
-            TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-            pais = tm.getNetworkCountryIso().toUpperCase();
+            //TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+            pais = "DO"; // tm.getNetworkCountryIso().toUpperCase();
 
             if (pais == null || pais.trim().length() == 0) {
                 // Se obtiene el pais de la configuracion regional del dispositivo
@@ -311,6 +311,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 return true;
 
+            /*
             case R.id.drawer_locale:
 
                 navigationView.getMenu().findItem(R.id.drawer_recent).setChecked(true);
@@ -381,7 +382,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return false;
-
+            */
             case R.id.drawer_rate:
 
                 final String appName = getPackageName();
