@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.doskapps.interradio">
+    package="com.doskapps.radiosrepublicadominicana">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name="com.doskapps.interradio.activities.MyApplication"
+        android:name="com.doskapps.radiosrepublicadominicana.activities.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="com.doskapps.interradio.activities.ActivitySplash"
+            android:name="com.doskapps.radiosrepublicadominicana.activities.ActivitySplash"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.doskapps.interradio.activities.MainActivity"
+            android:name="com.doskapps.radiosrepublicadominicana.activities.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:launchMode="singleTop">
@@ -39,16 +39,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.doskapps.interradio.activities.ActivityCategoryDetails"
+            android:name="com.doskapps.radiosrepublicadominicana.activities.ActivityCategoryDetails"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
-            android:name="com.doskapps.interradio.activities.ActivitySearch"
+            android:name="com.doskapps.radiosrepublicadominicana.activities.ActivitySearch"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
-            android:name="com.doskapps.interradio.activities.ActivityPrivacyPolicy"
+            android:name="com.doskapps.radiosrepublicadominicana.activities.ActivityPrivacyPolicy"
             android:configChanges="orientation|keyboardHidden|screenSize" />
 
-        <service android:name="com.doskapps.interradio.services.RadioPlayerService" />
+        <service android:name="com.doskapps.radiosrepublicadominicana.services.RadioPlayerService" />
 
         <!--admob-->
         <meta-data
@@ -60,13 +60,13 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
 
         <!--fcm-->
-        <service android:name="com.doskapps.interradio.fcm.MyFirebaseMessagingService">
+        <service android:name="com.doskapps.radiosrepublicadominicana.fcm.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <service android:name="com.doskapps.interradio.fcm.MyFirebaseInstanceIDService">
+        <service android:name="com.doskapps.radiosrepublicadominicana.fcm.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
