@@ -10,8 +10,8 @@
 
     <!--AdMob-->
     <string name="admob_app_id"></string>
-    <string name="admob_banner_unit_id"></string>
-    <string name="admob_interstitial_unit_id"></string>
+    <string name="admob_banner_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="admob_interstitial_unit_id">ca-app-pub-3940256099942544/1033173712</string>
 
     <!--navigation drawer menu name-->
     <string name="drawer_recent">Home</string>
