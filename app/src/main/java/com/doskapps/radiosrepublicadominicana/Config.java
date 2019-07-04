@@ -6,7 +6,7 @@ public class Config {
     //public static final String ADMIN_PANEL_URL = "http://192.168.1.23/radios/mexico";
     //public static final String ADMIN_PANEL_URL = "http://192.168.1.19/radios/mexico";
     //public static final String ADMIN_PANEL_URL = "http://lithe-bow.000webhostapp.com/radios/internacional";
-    public static final String ADMIN_PANEL_URL = "http://doskapps.com/apps/radios/interradio";
+    public static final String ADMIN_PANEL_URL = "https://doskapps.com/apps/radios/interradio";
 
     //put your api key which obtained from admin panel
     public static final String API_KEY = "cda11lHY0ZafN2nrti4U5QAKMDhTw7Czm1xoSsyVLduvRegkqE";
