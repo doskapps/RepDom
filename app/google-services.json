@@ -1,40 +1,40 @@
 {
   "project_info": {
-    "project_number": "779666426502",
-    "firebase_url": "https://inter-radio-55332.firebaseio.com",
-    "project_id": "inter-radio-55332",
-    "storage_bucket": "inter-radio-55332.appspot.com"
+    "project_number": "651389799578",
+    "firebase_url": "https://radio-republica-dominica-12d6c.firebaseio.com",
+    "project_id": "radio-republica-dominica-12d6c",
+    "storage_bucket": "radio-republica-dominica-12d6c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:779666426502:android:c904bdc284b53f9b",
+        "mobilesdk_app_id": "1:651389799578:android:50c9776b044f102f",
         "android_client_info": {
           "package_name": "com.doskapps.radiosrepublicadominicana"
         }
       },
       "oauth_client": [
         {
-          "client_id": "779666426502-62jt899uoo4q06cami4o17b1cdnhr3eq.apps.googleusercontent.com",
+          "client_id": "651389799578-j23esfso65u93f4cnd3693pl3oplhj8e.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBYg9AKHciLg6Y-u39IXzgv-uYm3xd84aY"
+          "current_key": "AIzaSyBi1ynux6-mjP3cuFooKAREYAZFHlv-pDo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "779666426502-62jt899uoo4q06cami4o17b1cdnhr3eq.apps.googleusercontent.com",
+              "client_id": "651389799578-j23esfso65u93f4cnd3693pl3oplhj8e.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
         }
       },
-      "admob_app_id": "ca-app-pub-7602201078320441~4056840219"
+      "admob_app_id": "ca-app-pub-7602201078320441~3237008092"
     }
   ],
   "configuration_version": "1"

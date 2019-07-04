@@ -9,9 +9,9 @@
     <string name="tab_category">Región/Ciudad</string>
 
     <!--AdMob-->
-    <string name="admob_app_id"></string>
-    <string name="admob_banner_unit_id">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="admob_interstitial_unit_id">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="admob_app_id">ca-app-pub-7602201078320441~3237008092</string>
+    <string name="admob_banner_unit_id">ca-app-pub-7602201078320441/7723048018</string>
+    <string name="admob_interstitial_unit_id">ca-app-pub-7602201078320441/5068964518</string>
 
     <!--navigation drawer menu name-->
     <string name="drawer_recent">Home</string>
